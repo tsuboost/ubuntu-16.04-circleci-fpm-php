@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y apt-utils
 # install typical requirements for testing
 RUN apt-get install -y ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev php composer php-xml curl
 
+# install fpm
+RUN gem install fpm
+
 # cleanup
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
