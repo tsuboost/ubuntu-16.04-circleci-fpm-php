@@ -26,6 +26,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq php composer php-xml php-
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq libffi-dev
 RUN gem install fpm --no-ri --no-rdoc
 
+# install ghr
+RUN wget -O /tmp/ghr.zip https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip && (cd /usr/local/bin && unzip /tmp/ghr.zip) && chmod +x /usr/local/bin/ghr
+
 # cleanup
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
