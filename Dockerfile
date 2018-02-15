@@ -15,10 +15,12 @@ RUN echo "APT::Get::Install-Recommends 'false'; \n\
 RUN rm -rf /lib/systemd/system/getty*;
 
 # install
-RUN apt-get update && apt-get install -y apt-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -yq apt-utils
 
 # install typical requirements for testing
-RUN apt-get install -y ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev php composer php-xml curl
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev curl
+# install php
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq php composer php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap
 
 # install fpm
 RUN gem install fpm
