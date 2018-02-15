@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq ssl-cert ca-certificates 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq php composer php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap
 
 # install fpm
-RUN gem install fpm
+RUN gem install fpm --no-ri --no-rdoc
 
 # cleanup
 RUN apt-get clean
