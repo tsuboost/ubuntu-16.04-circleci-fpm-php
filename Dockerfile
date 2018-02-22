@@ -3,6 +3,9 @@ FROM ubuntu:16.04
 # set env vars
 ENV container docker
 ENV LC_ALL C.UTF-8
+ENV COMPOSER_VERSION=1.6.3 \
+    COMPOSER_HOME=/composer \
+    PATH=$COMPOSER_HOME/vendor/bin:$PATH
 
 #set build vars
 ARG DEBIAN_FRONTEND=noninteractive
@@ -27,7 +30,18 @@ RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get update
 
 # install php
-RUN apt-get install -yq php php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap composer
+RUN apt-get install -yq php php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap php-curl
+
+# install composer + parallel install plugin
+COPY install-composer.sh /usr/local/bin/install-composer.sh
+RUN mkdir -p $COMPOSER_HOME \
+    && ( install-composer.sh && rm /usr/local/bin/install-composer.sh ) \
+    && export COMPOSER_ALLOW_SUPERUSER=1 \
+    && composer global require -a --prefer-dist "hirak/prestissimo:^0.3" \
+    && export COMPOSER_ALLOW_SUPERUSER=0 \
+    && chmod -R 0777 $COMPOSER_HOME/cache \
+    && rm -Rf /var/cache/apk/* \
+    && rm -Rf $COMPOSER_HOME/cache/*
 
 # install fpm
 RUN apt-get install -yq libffi-dev
