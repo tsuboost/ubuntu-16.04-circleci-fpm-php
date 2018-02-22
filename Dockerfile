@@ -23,14 +23,44 @@ RUN rm -rf /lib/systemd/system/getty*;
 RUN apt-get update && apt-get install -yq apt-utils
 
 # install typical requirements for testing
-RUN apt-get install -yq ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev curl software-properties-common
+RUN apt-get install -yq \
+    apt-transport-https \
+    build-essential expect \
+    ca-certificates \
+    curl \
+    git \
+    gnupg2 \
+    iproute \
+    net-tools \
+    pinentry-tty \
+    procps \
+    python \
+    rpm \
+    ruby-dev \
+    software-properties-common \
+    ssl-cert \
+    sudo \
+    syslog-ng \
+    unzip \
+    vim \
+    wget
 
 # add current php repository
 RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get update
 
 # install php
-RUN apt-get install -yq php php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap php-curl
+RUN apt-get install -yq \
+    php \
+    php-common \
+    php-curl \
+    php-gd \
+    php-imap \
+    php-intl \
+    php-mbstring \
+    php-mcrypt \
+    php-mysql \
+    php-xml \
 
 # install composer + parallel install plugin
 COPY install-composer.sh /usr/local/bin/install-composer.sh
