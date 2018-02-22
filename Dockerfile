@@ -2,8 +2,10 @@ FROM ubuntu:16.04
 
 # set env vars
 ENV container docker
-ENV LC_ALL C
-ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL C.UTF-8
+
+#set build vars
+ARG DEBIAN_FRONTEND=noninteractive
 
 # configure apt behaviour
 RUN echo "APT::Get::Install-Recommends 'false'; \n\
@@ -15,15 +17,20 @@ RUN echo "APT::Get::Install-Recommends 'false'; \n\
 RUN rm -rf /lib/systemd/system/getty*;
 
 # install
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -yq apt-utils
+RUN apt-get update && apt-get install -yq apt-utils
 
 # install typical requirements for testing
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev curl
+RUN apt-get install -yq ssl-cert ca-certificates apt-transport-https python sudo curl net-tools vim iproute unzip vim wget git build-essential expect git gnupg2 pinentry-tty procps rpm ruby-dev curl software-properties-common
+
+# add current php repository
+RUN add-apt-repository ppa:ondrej/php -y
+RUN apt-get update
+
 # install php
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq php composer php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap
+RUN apt-get install -yq php php-xml php-intl php-mbstring php-common php-mcrypt php-gd php-mysql php-imap composer
 
 # install fpm
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq libffi-dev
+RUN apt-get install -yq libffi-dev
 RUN gem install fpm --no-ri --no-rdoc
 
 # install ghr
