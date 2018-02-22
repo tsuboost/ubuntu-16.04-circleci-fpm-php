@@ -60,7 +60,7 @@ RUN apt-get install -yq \
     php-mbstring \
     php-mcrypt \
     php-mysql \
-    php-xml \
+    php-xml
 
 # install composer + parallel install plugin
 COPY install-composer.sh /usr/local/bin/install-composer.sh
